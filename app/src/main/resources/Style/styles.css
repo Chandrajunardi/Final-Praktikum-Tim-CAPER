@@ -1,0 +1,40 @@
+/* styles.css */
+
+/* Style for DatePicker text field */
+.date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-prompt-text-fill: black;
+}
+
+/* Style for DatePicker popup calendar */
+.date-picker .popup {
+    -fx-background-color: rgb(149, 28, 197);
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+}
+
+.date-picker-popup .calendar-pane .calendar .day-cell {
+    -fx-background-color: rgb(210, 26, 216);
+    -fx-text-fill: black;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+.date-picker-popup .calendar-pane .calendar .day-cell:hover {
+    -fx-background-color: rgb(146, 17, 221);
+    -fx-text-fill: black;
+}
+
+.date-picker-popup .calendar-pane .calendar .day-cell:selected {
+    -fx-background-color: #9610d4;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .calendar-pane .calendar .day-cell:today {
+    -fx-background-color: #ffde59;
+    -fx-text-fill: black;
+    -fx-border-color: black;
+}
