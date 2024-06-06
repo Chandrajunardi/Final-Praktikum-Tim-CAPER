@@ -23,7 +23,6 @@ public class App extends Application {
         login.halamanLogin();
 
         
-        
         primaryStage.setTitle("MasterKoin");
         // primaryStage.setResizable(true);
         try {
