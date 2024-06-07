@@ -24,8 +24,8 @@ public class DaftarPengeluaran extends DataHarian {
         }
     }
 
-    public void saveHistori(String jenisTransaksi, String tanggal, String keterangan, double jumlah) {
-        DataBase.saveTransactionHistory(userInfo.getId(), jenisTransaksi, tanggal, keterangan, jumlah);
+    public void saveHistori(String tanggal, String keterangan, double jumlah) {
+        DataBase.savePengeluaranHistory(userInfo.getId(), tanggal, keterangan, jumlah);
     }
 
     public static double hitungTotalPengeluaran() {
@@ -35,7 +35,7 @@ public class DaftarPengeluaran extends DataHarian {
 
     public void tambahPengeluaran(Pengeluaran pengeluaran) {
         pengeluaranList.add(pengeluaran);
-        saveHistori("Pengeluaran", pengeluaran.getTanggalInput(), pengeluaran.getKeteranganInput(), pengeluaran.getJumlahInput());
+        saveHistori(pengeluaran.getTanggalInput(), pengeluaran.getKeteranganInput(), pengeluaran.getJumlahInput());
         DataBase.saveSaldoDompet(userInfo.getId(), SaldoDompet.hitungSaldoDompet(userInfo.getId(), pengeluaran.getJumlahInput(),0 ));
     }
 

@@ -3,9 +3,6 @@ package javafx.gradle.sample;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import org.checkerframework.checker.units.qual.s;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.gradle.sample.config.DataBase;
@@ -13,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

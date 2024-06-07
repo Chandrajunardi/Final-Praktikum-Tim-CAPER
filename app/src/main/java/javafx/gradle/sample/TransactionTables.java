@@ -1,23 +1,25 @@
 package javafx.gradle.sample;
 
-
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.gradle.sample.config.DataBase;
 
 public class TransactionTables {
     private TableView<DaftarPemasukan.Pemasukan> pemasukanTable;
     private TableView<DaftarPengeluaran.Pengeluaran> pengeluaranTable;
+    private int userId;
 
-    public TransactionTables() {
+    public TransactionTables(int userId) {
+        this.userId = userId;
         setupPemasukanTable();
         setupPengeluaranTable();
+        loadData();
     }
 
     private void setupPemasukanTable() {
@@ -36,7 +38,6 @@ public class TransactionTables {
 
         pemasukanTable.getColumns().addAll(tanggalColumn, keteranganColumn, jumlahColumn);
 
-        @SuppressWarnings("unchecked")
         Label historiPlaceholder = new Label("Belum ada histori pemasukan");
         historiPlaceholder.setStyle("-fx-background-color: #F5F5F5;-fx-font-weight: bold;");
         pemasukanTable.setPlaceholder(historiPlaceholder);
@@ -61,6 +62,11 @@ public class TransactionTables {
         Label historiPlaceholder = new Label("Belum ada histori pengeluaran");
         historiPlaceholder.setStyle("-fx-background-color: #F5F5F5;-fx-font-weight: bold;");
         pengeluaranTable.setPlaceholder(historiPlaceholder);
+    }
+
+    private void loadData() {
+        pemasukanTable.getItems().addAll(DataBase.getPemasukanHistory(userId));
+        pengeluaranTable.getItems().addAll(DataBase.getPengeluaranHistory(userId));
     }
 
     public TableView<DaftarPemasukan.Pemasukan> getPemasukanTable() {

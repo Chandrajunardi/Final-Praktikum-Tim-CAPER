@@ -2,36 +2,22 @@ package javafx.gradle.sample;
 
 import javafx.stage.Stage;
 import javafx.gradle.sample.config.DataBase;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.control.Tooltip;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Profile {
     private Stage stage;
@@ -49,7 +35,6 @@ public class Profile {
         this.daftarPengeluaran = daftarPengeluaran != null ? daftarPengeluaran : new DaftarPengeluaran(userInfo);
         fetchDataFromDatabase();
     }
-
 
     private void fetchDataFromDatabase() {
 
@@ -131,29 +116,6 @@ public class Profile {
 
         VBox akhir = new VBox(6, imageHbox, maniV);
         
-        // profileImageView.setOnMouseClicked(event -> {
-        //     // Buat sebuah PieChart dengan data pengeluaran
-        //     PieChart pengeluaranChart = new PieChart(getPengeluaranData());
-        //     pengeluaranChart.setTitle("Diagram Pengeluaran");
-
-        //     // Buat sebuah VBox untuk menampung chart
-        //     VBox chartContainer = new VBox(pengeluaranChart);
-        //     chartContainer.setAlignment(Pos.CENTER);
-        //     chartContainer.setStyle("-fx-background-image: url(\"/images/LatarHalamanUtama.png\"); " +
-        //                     "-fx-background-size: cover; " +
-        //                     "-fx-background-position: center;");
-
-        //     // Buat sebuah scene baru dengan VBox sebagai root
-        //     Scene chartScene = new Scene(chartContainer, 400, 400);
-
-        //     // Buat sebuah stage baru untuk menampilkan scene kecil
-        //     Stage chartStage = new Stage();
-        //     chartStage.setScene(chartScene);
-        //     chartStage.setTitle("Diagram Pengeluaran");
-            
-        //     // Tampilkan stage baru
-        //     chartStage.show();
-        // });
 
         Scene scene = new Scene(akhir, 700, 400);
 
@@ -164,38 +126,6 @@ public class Profile {
         stage.show();
     }
 
-
-
-
-    public ObservableList<PieChart.Data> getPengeluaranData() {
-        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-
-        // Kumpulkan data pengeluaran berdasarkan kategori dari database
-        Map<String, Double> pengeluaranMap = new HashMap<>();
-        List<Object> historyList = DataBase.getTransactionHistory(userInfo.getId()); // Ambil data transaksi dari database
-
-        // Loop melalui data transaksi dan tambahkan ke pengeluaranMap
-        for (Object transaction : historyList) {
-            if (transaction instanceof DaftarPengeluaran.Pengeluaran) {
-                DaftarPengeluaran.Pengeluaran pengeluaran = (DaftarPengeluaran.Pengeluaran) transaction;
-                String kategori = pengeluaran.getKeteranganInput(); // Asumsikan keterangan sebagai kategori
-                double jumlah = pengeluaran.getJumlahInput();
-                pengeluaranMap.put(kategori, pengeluaranMap.getOrDefault(kategori, 0.0) + jumlah);
-            }
-        }
-
-        // Tambahkan data ke dalam PieChart
-        for (Map.Entry<String, Double> entry : pengeluaranMap.entrySet()) {
-            String kategori = entry.getKey();
-            double jumlah = entry.getValue();
-            String keterangan = kategori + " : " + String.format("%.2f", jumlah); // Buat keterangan dengan format "kategori : jumlah"
-            PieChart.Data slice = new PieChart.Data(kategori, jumlah);
-            Tooltip.install(slice.getNode(), new Tooltip(keterangan)); // Tambahkan tooltip untuk menampilkan keterangan
-            data.add(slice);
-        }
-
-        return data;
-    }
 
     public void format(Text text){
         text.setStyle("-fx-text-fill: #ff8210;");

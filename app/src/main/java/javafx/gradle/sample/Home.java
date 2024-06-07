@@ -1,20 +1,26 @@
 package javafx.gradle.sample;
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -36,13 +42,65 @@ public class Home {
         this.daftarPengeluaran = daftarPengeluaran;
     }
 
-    @SuppressWarnings("unchecked")
+    // @SuppressWarnings("unchecked")
     public void jalan(UserInfo userInfo){
+        this.userInfo = userInfo;
 
         Image garisMenu = new Image(getClass().getResourceAsStream("/images/Tap.png"));
         ImageView image = new ImageView(garisMenu);
         image.setFitWidth(35); 
         image.setFitHeight(40);
+
+        // ContextMenu untuk opsi klik kanan
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem profileItem = new MenuItem("Lihat Profile");
+        MenuItem diagramItem = new MenuItem("Diagram Pengeluaran");
+        MenuItem logoutItem = new MenuItem("Logout");
+
+        contextMenu.getItems().addAll(profileItem, diagramItem, logoutItem);
+
+        // Event handler untuk menu item
+        profileItem.setOnAction(event -> {
+            System.out.println("Lihat Profile dipilih");
+            Profile profilePage = new Profile(stage, userInfo.getId(), userInfo, daftarPemasukan, daftarPengeluaran);
+            profilePage.showProfile();
+        });
+
+        diagramItem.setOnAction(event -> {
+            System.out.println("Diagram Pengeluaran dipilih");
+            PieChart pengeluaranChart = new PieChart(getPengeluaranData());
+            pengeluaranChart.setTitle("Diagram Pengeluaran");
+            // pengeluaranChart.setPrefSize(150, 150);
+
+            // Buat sebuah VBox untuk menampung chart
+            VBox chartContainer = new VBox(pengeluaranChart);
+            chartContainer.setAlignment(Pos.CENTER);
+            chartContainer.setStyle("-fx-background-image: url(\"/images/LatarHalamanUtama.png\"); " +
+                    "-fx-background-size: cover; " +
+                    "-fx-background-position: center;");
+
+            // Buat sebuah scene baru dengan VBox sebagai root
+            Scene chartScene = new Scene(chartContainer, 500, 500);
+
+            // Buat sebuah stage baru untuk menampilkan scene kecil
+            Stage chartStage = new Stage();
+            chartStage.setScene(chartScene);
+            chartStage.setTitle("Diagram Pengeluaran");
+
+            // Tampilkan stage baru
+            chartStage.show();
+        });
+
+        logoutItem.setOnAction(event -> {
+            System.out.println("Logout dipilih");
+            HalamanLogin halamanLogin = new HalamanLogin(stage);
+            halamanLogin.halamanLogin();
+        });
+
+        // Menambahkan event handler untuk klik pada gambar
+        image.setOnMouseClicked(e -> {
+            contextMenu.show(image, e.getScreenX(), e.getScreenY());
+        });
 
         // Labels and Buttons
         Text haiNama = new Text("Hai, "+ userInfo.getUsername());
@@ -126,5 +184,33 @@ public class Home {
         stage.setScene(scene);
         stage.setTitle("Halaman Utama");
         stage.show();
+    }
+    public ObservableList<PieChart.Data> getPengeluaranData() {
+        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+
+        // Kumpulkan data pengeluaran berdasarkan kategori dari database
+        Map<String, Double> pengeluaranMap = new HashMap<>();
+        List<DaftarPengeluaran.Pengeluaran> historyList = DataBase.getPengeluaranHistory(userInfo.getId()); // Ambil data transaksi dari database
+
+        // Loop melalui data transaksi dan tambahkan ke pengeluaranMap
+        for (Object transaction : historyList) {
+            if (transaction instanceof DaftarPengeluaran.Pengeluaran) {
+                DaftarPengeluaran.Pengeluaran pengeluaran = (DaftarPengeluaran.Pengeluaran) transaction;
+                String kategori = pengeluaran.getKeteranganInput(); // Asumsikan keterangan sebagai kategori
+                double jumlah = pengeluaran.getJumlahInput();
+                pengeluaranMap.put(kategori, pengeluaranMap.getOrDefault(kategori, 0.0) + jumlah);
+            }
+        }
+        // Tambahkan data ke dalam PieChart
+        for (Map.Entry<String, Double> entry : pengeluaranMap.entrySet()) {
+            String kategori = entry.getKey();
+            double jumlah = entry.getValue();
+            String keterangan = kategori + " : " + String.format("%.2f", jumlah); // Buat keterangan dengan format "kategori : jumlah"
+            PieChart.Data slice = new PieChart.Data(kategori, jumlah);
+            Tooltip.install(slice.getNode(), new Tooltip(keterangan)); // Tambahkan tooltip untuk menampilkan keterangan
+            data.add(slice);
+        }
+
+        return data;
     }
 }

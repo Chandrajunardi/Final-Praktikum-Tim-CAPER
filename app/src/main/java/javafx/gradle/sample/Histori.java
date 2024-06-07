@@ -2,44 +2,20 @@ package javafx.gradle.sample;
 
 import javafx.stage.Stage;
 import javafx.gradle.sample.config.DataBase;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.control.Tooltip;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-// import com.jfoenix.controls.JFXButton.ButtonType;
-
 import javafx.scene.control.ButtonType;
-
-import javafx.gradle.sample.config.DataBase;
-
 
 public class Histori {
     Stage stage;
@@ -55,12 +31,11 @@ public class Histori {
         this.userInfo = userInfo;
         this.daftarPemasukan = daftarPemasukan != null ? daftarPemasukan : new DaftarPemasukan(userInfo);
         this.daftarPengeluaran = daftarPengeluaran != null ? daftarPengeluaran : new DaftarPengeluaran(userInfo);
-
     }
 
     public void histori(){
         // Initialize TransactionTables
-        TransactionTables transactionTables = new TransactionTables();
+        TransactionTables transactionTables = new TransactionTables(userInfo.getId());
 
         // Create ImageView for Home icon
         Image home = new Image(getClass().getResourceAsStream("/images/HomeIcon.png"));
