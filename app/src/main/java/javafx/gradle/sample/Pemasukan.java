@@ -99,8 +99,8 @@ public class Pemasukan {
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Data berhasil disimpan.");
                 alert.showAndWait();
-                HalamanUtama halamanUtama = new HalamanUtama(stage, daftarPemasukan, daftarPengeluaran);
-                halamanUtama.halamanUtama(userInfo);
+                Home home = new Home(stage, daftarPemasukan, daftarPengeluaran);
+                home.jalan(userInfo);
             }
         });
 
@@ -113,8 +113,8 @@ public class Pemasukan {
             tanggalField.setValue(null);
             keteranganField.clear();
             jumlahField.clear();
-            HalamanUtama halamanUtama = new HalamanUtama(stage, daftarPemasukan, null);
-            halamanUtama.halamanUtama(userInfo);
+            Home halamanUtama = new Home(stage, daftarPemasukan, null);
+            halamanUtama.jalan(userInfo);
         });
         
         VBox leftFieldVBox = new VBox( tanggalField, batas(), keteranganField, batas(), jumlahField, batas());

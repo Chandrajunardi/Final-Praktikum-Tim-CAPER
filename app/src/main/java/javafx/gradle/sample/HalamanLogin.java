@@ -110,9 +110,9 @@ public class HalamanLogin {
                 if (userInfo != null) {
                     DaftarPengeluaran daftarPengeluaran = new DaftarPengeluaran(userInfo);
                     DaftarPemasukan daftarPemasukan = new DaftarPemasukan(userInfo);
-                    HalamanUtama halamanUtama = new HalamanUtama(stage, daftarPemasukan, daftarPengeluaran);
+                    Home halamanUtama = new Home(stage, daftarPemasukan, daftarPengeluaran);
                     userInfo.setUnserNama(usernameInput);
-                    halamanUtama.halamanUtama(userInfo);
+                    halamanUtama.jalan(userInfo);
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Username atau password salah.");

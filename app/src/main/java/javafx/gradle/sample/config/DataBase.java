@@ -143,12 +143,12 @@ public class DataBase {
     
         return historyList;
     }
-    // Method to delete a history record by ID
-    public static boolean deleteHistoryById(int id) {
-        String sql = "DELETE FROM history WHERE id = ?";
+    public static boolean deleteHistoryByIdAndType(int userId, String type) {
+        String sql = "DELETE FROM history WHERE user_id = ? AND type = ?";
         try (Connection conn = DataBase.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, type);
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {

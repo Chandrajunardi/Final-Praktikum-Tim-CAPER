@@ -50,11 +50,6 @@ public class Profile {
         fetchDataFromDatabase();
     }
 
-    public Profile(Stage stage){
-        this.stage = stage;
-    }
-
-    
 
     private void fetchDataFromDatabase() {
 
@@ -88,8 +83,8 @@ public class Profile {
         imageHbox.setOnMouseClicked(e -> {
             // HalamanUtama hal = new HalamanUtama(stage, daftarPemasukan, daftarPengeluaran);
             // hal.halamanUtama(userInfo);
-            Home h = new Home(stage);
-            h.jalan();
+            Home h = new Home(stage, daftarPemasukan, daftarPengeluaran);
+            h.jalan(userInfo);
         });
 
         Rectangle container = new Rectangle(370, 250);

@@ -19,12 +19,8 @@ public class App extends Application {
         DaftarPengeluaran daftarPengeluaran = new DaftarPengeluaran(userInfo);
         DaftarPemasukan daftarPemasukan = new DaftarPemasukan(userInfo);
 
-        // HalamanLogin login = new HalamanLogin(primaryStage);
-        // login.halamanLogin();
-
-        Profile p = new Profile(primaryStage);
-        p.showProfile();
-
+        HalamanLogin login = new HalamanLogin(primaryStage);
+        login.halamanLogin();
         
         primaryStage.setTitle("MasterKoin");
         // primaryStage.setResizable(true);
