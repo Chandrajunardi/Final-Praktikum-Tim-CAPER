@@ -167,7 +167,7 @@ public class Home {
 
         lihatHistori.setOnMouseClicked(e -> {
             Histori his = new Histori(stage, userInfo.getId(), userInfo, daftarPemasukan, daftarPengeluaran);
-            his.histori();
+            his.histori(userInfo);
         });
         VBox rightVBox = new VBox( logVBox, lihatHistori);
         rightVBox.setAlignment(Pos.CENTER);

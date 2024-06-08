@@ -31,11 +31,14 @@ public class Histori {
         this.userInfo = userInfo;
         this.daftarPemasukan = daftarPemasukan != null ? daftarPemasukan : new DaftarPemasukan(userInfo);
         this.daftarPengeluaran = daftarPengeluaran != null ? daftarPengeluaran : new DaftarPengeluaran(userInfo);
+        this.transactionTables = new TransactionTables(userInfo.getId()); 
     }
+    
 
-    public void histori(){
+    public void histori(UserInfo userInfo){
+        this.userInfo = userInfo;
         // Initialize TransactionTables
-        TransactionTables transactionTables = new TransactionTables(userInfo.getId());
+        this.transactionTables = new TransactionTables(userInfo.getId()); 
 
         // Create ImageView for Home icon
         Image home = new Image(getClass().getResourceAsStream("/images/HomeIcon.png"));
@@ -72,9 +75,9 @@ public class Histori {
             optionAlert.setHeaderText("Pilih jenis riwayat yang ingin dihapus:");
             ButtonType buttonPemasukan = new ButtonType("Pemasukan");
             ButtonType buttonPengeluaran = new ButtonType("Pengeluaran");
-
+        
             optionAlert.getButtonTypes().setAll(buttonPemasukan, buttonPengeluaran);
-
+        
             java.util.Optional<ButtonType> optionResult = optionAlert.showAndWait();
             if (optionResult.isPresent()) {
                 if (optionResult.get() == buttonPemasukan) {
@@ -84,6 +87,7 @@ public class Histori {
                 }
             }
         });
+        
 
         // Create the top HBox
         HBox mainTop = new HBox(200, image, histori, hapus);
@@ -147,12 +151,12 @@ public class Histori {
                 // Hapus semua item dari tabel Pemasukan
                 transactionTables.getPemasukanTable().getItems().clear();
                 // Hapus semua riwayat pemasukan dari database
-                DataBase.deleteHistoryByIdAndType(userInfo.getId(), "pemasukan");
+                DataBase.deleteHistoryPemasukan(userInfo.getId());
             } else if (type.equals("pengeluaran")) {
                 // Hapus semua item dari tabel Pengeluaran
                 transactionTables.getPengeluaranTable().getItems().clear();
                 // Hapus semua riwayat pengeluaran dari database
-                DataBase.deleteHistoryByIdAndType(userInfo.getId(), "pengeluaran");
+                DataBase.deleteHistoryPengeluaran(userInfo.getId());
             }
         }
     }

@@ -56,7 +56,6 @@ public class DataBase {
 
         String historyPemasukanTableQuery = "CREATE TABLE IF NOT EXISTS history_pemasukan ("
                 + "id INTEGER,"
-                + "user_id INTEGER,"
                 + "tanggal TEXT,"
                 + "keterangan TEXT,"
                 + "jumlah DOUBLE"
@@ -64,7 +63,6 @@ public class DataBase {
 
         String historyPengeluaranTableQuery = "CREATE TABLE IF NOT EXISTS history_pengeluaran ("
                 + "id INTEGER,"
-                + "user_id INTEGER,"
                 + "tanggal TEXT,"
                 + "keterangan TEXT,"
                 + "jumlah DOUBLE"
@@ -111,22 +109,9 @@ public class DataBase {
             System.out.println("Gagal menyimpan saldo dompet: " + e.getMessage());
         }
     }
-
-    public static boolean deleteHistoryByIdAndType(int userId, String type) {
-        String sql = "DELETE FROM history WHERE user_id = ? AND type = ?";
-        try (Connection conn = DataBase.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, userId);
-            pstmt.setString(2, type);
-            int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
+    
     public static void savePemasukanHistory(int userId, String tanggal, String keterangan, double jumlah) {
-        String insertPemasukanQuery = "INSERT INTO history_pemasukan(user_id, tanggal, keterangan, jumlah) VALUES (?, ?, ?, ?)";
+        String insertPemasukanQuery = "INSERT INTO history_pemasukan(id, tanggal, keterangan, jumlah) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(insertPemasukanQuery)) {
@@ -141,7 +126,7 @@ public class DataBase {
         }
     }
     public static void savePengeluaranHistory(int userId, String tanggal, String keterangan, double jumlah) {
-        String insertPengeluaranQuery = "INSERT INTO history_pengeluaran(user_id, tanggal, keterangan, jumlah) VALUES (?, ?, ?, ?)";
+        String insertPengeluaranQuery = "INSERT INTO history_pengeluaran(id, tanggal, keterangan, jumlah) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(insertPengeluaranQuery)) {
@@ -155,9 +140,9 @@ public class DataBase {
             System.out.println("Gagal menyimpan histori pengeluaran: " + e.getMessage());
         }
     }
-
+    
     public static List<DaftarPemasukan.Pemasukan> getPemasukanHistory(int userId) {
-        String query = "SELECT * FROM history_pemasukan WHERE user_id = ? ORDER BY tanggal";
+        String query = "SELECT * FROM history_pemasukan WHERE id = ? ORDER BY tanggal";
         List<DaftarPemasukan.Pemasukan> pemasukanList = new ArrayList<>();
 
         try (Connection conn = connect();
@@ -181,7 +166,7 @@ public class DataBase {
     }
 
     public static List<DaftarPengeluaran.Pengeluaran> getPengeluaranHistory(int userId) {
-        String query = "SELECT * FROM history_pengeluaran WHERE user_id = ? ORDER BY tanggal";
+        String query = "SELECT * FROM history_pengeluaran WHERE id = ? ORDER BY tanggal";
         List<DaftarPengeluaran.Pengeluaran> pengeluaranList = new ArrayList<>();
 
         try (Connection conn = connect();
@@ -204,5 +189,29 @@ public class DataBase {
         return pengeluaranList;
     }
     
+    public static boolean deleteHistoryPemasukan(int id) {
+        String sql = "DELETE FROM history_pemasukan WHERE id = ?";
+        try (Connection conn = DataBase.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.out.println("gagal menghapus" + e.getMessage());
+            return false;
+        }
+    }
+    public static boolean deleteHistoryPengeluaran(int id) {
+        String sql = "DELETE FROM history_pengeluaran WHERE id = ?";
+        try (Connection conn = DataBase.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.out.println("gagal menghapus" + e.getMessage());
+            return false;
+        }
+    }
 
 }
