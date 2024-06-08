@@ -101,6 +101,7 @@ public class HalamanLogin {
             if (usernameInput.isEmpty() || passwordInput.isEmpty()) {
                 Alert alert1 = new Alert(Alert.AlertType.ERROR, "Username atau password tidak boleh kosong.");
                 alert1.show();
+                return;
             }
 
             if (checkCredentials(usernameInput, passwordInput)) {

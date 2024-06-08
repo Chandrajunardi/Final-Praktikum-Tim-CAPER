@@ -16,8 +16,8 @@ import javafx.gradle.sample.UserInfo;
 public class DataBase {
     // private static final String URL = "jdbc:sqlite:C:/Users/USER/Documents/Final-Praktikum-Tim-CAPER/javaFXProyek/app/src/main/java/javafxproyek/db/user.db";
     // private static final String URL = "jdbc:sqlite:C:/javafx-gradle-sample/app/src/main/java/javafx/gradle/sample/db/user.db";
-    private static final String URL = "jdbc:sqlite:C:/Users/USER/Desktop/Final-Praktikum-Tim-CAPER/app/src/main/java/javafx/gradle/sample/db/user.db";
-
+    private static final String URL = "jdbc:sqlite:F:/Revisi Projek PBO/Final-Praktikum-Tim-CAPER/app/src/main/java/javafx/gradle/sample/db/user.db";
+   
     static UserInfo userInfo;
 
     // Metode untuk menyambungkan ke database

@@ -87,8 +87,9 @@ public class Pemasukan {
 
 
             if (tanggalInput == null || keteranganInput.isEmpty() || jumlahInput <= 0) {
-                Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Data tidak boleh kosong atau jumlah harus berupa angka.");
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Data tidak boleh kosong atau jumlah harus positif.");
                 alert1.showAndWait();
+                return;
             } else {
                 DaftarPemasukan.Pemasukan pemasukan = new DaftarPemasukan.Pemasukan(tanggalInput.toString(), keteranganInput, jumlahInput);
                 daftarPemasukan.tambahPemasukan(pemasukan);
